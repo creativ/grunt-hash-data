@@ -1,0 +1,43 @@
+{
+  "name": "hash-data",
+  "version": "0.0.1",
+  "description": "Add rev to filename based on file content hashsum.",
+  "keywords": [
+    "gruntplugin",
+    "hash",
+    "rev",
+    "optimize"
+  ],
+  "homepage": "https://github.com/creativ/grunt-hash-data",
+  "bugs": "https://github.com/creativ/grunt-hash-data/issues",
+  "author": {
+    "name": "Dmitriy Tkalich",
+    "email": "mantap25@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/creativ/grunt-hash-data.git"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt": "~0.4.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/creativ/grunt-hash-data/blob/master/LICENSE-MIT"
+    }
+  ]
+}

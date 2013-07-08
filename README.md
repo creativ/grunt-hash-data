@@ -1,6 +1,6 @@
 # hash-data
 
-> Add hash based on file content to filename.
+> Add rev to filename based on file content hashsum.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -20,70 +20,82 @@ grunt.loadNpmTasks('hash-data');
 ## The "hash_data" task
 
 ### Overview
-In your project's Gruntfile, add a section named `hash_data` to the data object passed into `grunt.initConfig()`.
+This task will revision your files based on its contents. You should then set the file and hash options.
 
+### Example
 ```js
 grunt.initConfig({
   hash_data: {
+    files_list: {
+      src: ['Project/index.html', 'Project/js/script.js']
+        dest: 'Project/build'
+    },
     options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+      affix: 'prefix',
+      separator: '-',
+      length: 6,
+      algorithm: 'sha1',
+      summary: 'summary.json',
+      after: function(summary, options) {
+        // Callback
+      }
+    }
+  }
 })
 ```
 
 ### Options
 
-#### options.separator
+#### options.algorithm
 Type: `String`
-Default value: `',  '`
+Default value: `'md5'`
 
-A string value that is used to do something with whatever.
+`algorithm` is dependent on the available algorithms supported by the version of OpenSSL on the platform. Examples are `'sha1'`, `'md5'`, `'sha256'`, `'sha512'`, etc. On recent releases, `openssl list-message-digest-algorithms` will display the available digest algorithms.
 
-#### options.punctuation
+#### options.length
+Type: `Number`
+Default value: `'8'`
+
+The number of characters of the file content hash to affix the file name with.
+
+#### options.encoding
+Type: `String`
+Default value: `'utf8'`
+
+The encoding of the file contents.
+
+#### options.separator
 Type: `String`
 Default value: `'.'`
 
+A string value that is used to do something with whatever.
+
+#### options.affix
+Type: `String`
+Default value: `'prefix'`
+
 A string value that is used to do something else with whatever else.
 
-### Usage Examples
+#### options.summary
+Type: `String`
+Default value: `'prefix'`
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
+Summary file path. The content look like that:
 ```js
-grunt.initConfig({
-  hash_data: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+{
+    "index.html": {
+        "hash": "b275f5",
+        "absPath": "/home/user/Project/b275f5.index.html",
+        "relPath": "b275f5.index.html"
     },
-  },
-})
+    "js/script.js": {
+        "hash": "cad805",
+        "absPath": "/home/user/Project/js/cad805.script.js",
+        "relPath": "js/cad805.script.js"
+    }
+}
 ```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  hash_data: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+- **v0.0.1**, *July 2013*
+  - Big Bang
