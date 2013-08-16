@@ -1,6 +1,10 @@
 This is a regular paragraph.
 
 <table>
+	<th>
+    <td>Foo</td>
+        <td>Foo</td>
+    </th>
     <tr>
         <td>Foo</td>
         <td>Foo</td>
