@@ -36,20 +36,27 @@ module.exports = function(grunt) {
     this.files.forEach(function(f) {
       var move = true;
       if(f.dest) {
+        var dest = f.orig.expand ? path.dirname(dest) : dest;
         try {
-          var stat = fs.lstatSync(f.dest);
+          var stat = fs.lstatSync(dest);
           if (stat && !stat.isDirectory()) {
-            grunt.fail.fatal('Destination %s is not a directory', f.dest);
+            grunt.fail.fatal('Destination %s is not a directory', dest);
           }
         } catch (err) {
-          grunt.log.writeln('Destination dir ' + f.dest + ' does not exists: creating...');
-          grunt.file.mkdir(f.dest);
+          grunt.log.writeln('Destination dir ' + dest + ' does not exists: creating...');
+          grunt.file.mkdir(dest);
         }
         move = false;
       }
 
       f.src.forEach(function(filename) {
-        var dest = f.dest || path.dirname(filename);
+        var dest = path.dirname(filename);
+        if (f.dest) {
+          dest = f.dest;
+          if (f.orig.expand) {
+            dest = path.dirname(dest);
+          }
+        }
         var hash = createHash(filename, options.algorithm, options.encoding).slice(0, options.length);
         var ext = path.extname(filename);
         var new_name = options.affix == 'prefix'
@@ -64,8 +71,8 @@ module.exports = function(grunt) {
           fs.renameSync(filename, outPath);
           grunt.log.writeln('✔ '.green + filename + (' renamed to ').grey + relPath);
         } else {
-          relPath = [f.dest, new_name].join('/');;
-          outPath = path.resolve(f.dest, new_name);
+          relPath = [dest, new_name].join('/');;
+          outPath = path.resolve(dest, new_name);
           grunt.file.copy(filename, outPath);
           grunt.log.writeln('✔ '.green + filename + (' copied to ').grey + relPath);
         }
